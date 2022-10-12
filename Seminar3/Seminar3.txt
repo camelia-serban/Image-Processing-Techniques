@@ -1,0 +1,4 @@
+Proprietati ale valorilor proprii:
+- sunt pozitive
+- poate fi si 0 printre ele
+

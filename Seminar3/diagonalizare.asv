@@ -1,0 +1,116 @@
+function [] = diagonalizare(poza, procent)
+  % Demonstratie diagonalizare imagine, cu "compresie"
+  % I: poza - numele fisierului cu imaginea de prelucrat
+  %    procent - % valori proprii semnificative luate in considerare
+  % E: -
+    
+  % Exemple de apel: (folositi procente: 50, 45, 40, ... 10, 5)
+  % diagonalizare('Cat.jpg',40);
+  % diagonalizare('Lenna-mono.bmp',30);
+  % diagonalizare('Copil.bmp',50);
+  % diagonalizare('Amprenta.tif',50);
+  % diagonalizare('vulpea si marmota.jpg',35);
+  % diagonalizare('vulpea si marmota-mono.png',10);
+  % diagonalizare('luna-mono.jpg',25);
+  % diagonalizare('cat-mono.png',20);
+
+  I=imread(poza);
+  [m,n,p]=size(I);
+  I_diag=zeros(m,n,p);
+  if(p==1)
+    I_diag=d_plan(I,procent);
+  else
+    for k=1:p
+        I_diag(:,:,k)=d_plan(I(:,:,k),procent);
+    end;
+  end;
+      
+  figure
+    imshow(I);
+    title('Imaginea initiala');
+  figure
+    imshow(uint8(I_diag));
+    title(['Imaginea reconstruita dupa diagonalizare cu "compresie" de ' num2str(100-procent) '%']);
+  % salvare fisier cu imaginea reconstruita    
+  fo=[poza '-' num2str(procent) '.png'];
+  imwrite(uint8(I_diag),fo,'png');
+  
+  % doar cu scop didactic:  
+  % studiu empiric al diferentei intre imaginea initiala si cea
+  % reconstruita
+  if p==1   %un sg plan
+    dif=I-uint8(I_diag);
+    figure
+      imshow(dif);
+      title('Diferente');
+    figure
+      imshow(255-dif);
+      title('Negativ diferente');
+    c=length(find(dif));  %gaseste elementele care nu sunt 0 si 
+             %intoarce inapoi un vector cu rangurile elementelor
+             %iarlength da lungimea acelui vector
+    mx=max(max(dif));   %valoarea maxima din matricea "diferenta"
+    disp(['Total puncte in imagine: ' int2str(m*n)]);
+    disp(['Total puncte diferite: ' int2str(c)]);
+    disp(['Diferenta maxima: ' int2str(mx)]);
+    dd=zeros(1,mx);
+    for i=1:mx
+        dd(i)=length(find(dif==i));
+    end;
+    disp(['Puncte cu diferenta 1 - > ' int2str(mx) ':']);
+    tz=[uint16(1:mx);dd];
+    disp(tz);  
+  end;
+  % final scop didactic
+end
+
+function [I_diag]=d_plan(I,procent)
+  % diagonalizarea unui plan al imaginii
+      
+  f=double(I);    %toate calculele se fac in val reale
+  A=f*(f');       % f' e transpusa lui
+  [m,~]=size(A);  %~ -> ignor al doilea rezultat
+  % matrice valori proprii sigma1, matrice vectori proprii ortogonali U1
+  % A e simetrica => valori proprii pozitive, pe diagonala sigma1
+  [U1,sigma1]=eig(A);
+  % inversare ordine valori proprii si vectori proprii (eig: min->max)
+  sigma=sigma1;
+  for j=1:m
+     sigma(j,j)=sigma1(m-j+1,m-j+1);
+  end;
+  % VARIANTA (mai lenta): sigma(1:m,1:m)=sigma1(m:-1:1,m:-1,1)
+  U(:,1:m)=U1(:,m:-1:1);  %inversarea matricei
+    
+  % determinare numar valori proprii strict pozitive (pozitive)
+  pozitive=length(find(sigma));   %find(sigma) -> cate valori diferite de 0 sunt in sigma
+
+  % determinare numar de valori proprii pastrate (k)
+  k=fix(pozitive * procent/100);  %functia fix -> da partea intreaga
+  % pastrarea a k valori si vectori proprii
+  S=U';
+  lambdar=sigma(1:k,1:k);
+  S1=S(1:k,:);
+  
+  % calcul reprezentare diagonalizata (codificare)
+  g=lambdar^-0.5*S1*f;
+   
+  % scop didactic 
+  % matricea g NU este o imagine!
+  figure
+    imshow(uint8(g));
+    title('Matricea g. Se intelege ceva? NU este o imagine!');
+    
+  % suma valorilor proprii
+  pastrate=trace(lambdar);
+  toate=trace(sigma);
+  disp('--------------------------------------------');
+  disp(['Suma valorilor proprii - toate   : ' num2str(toate)]);
+  disp(['Suma valorilor proprii - pastrate: ' num2str(pastrate)]);
+  disp(['Suma valorilor proprii - ignorate: ' num2str(toate-pastrate)]);
+  disp(['               procent - ignorate: ' num2str((toate-pastrate)/toate*100)]);
+  disp('--------------------------------------------');
+  % final scop didactic
+    
+  % calcul imagine reconstruita (decodificare)
+  I_diag=S1'*(lambdar^0.5)*g;
+end
