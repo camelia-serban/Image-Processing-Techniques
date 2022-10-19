@@ -1,0 +1,23 @@
+Caracteristici necesare ale imaginilor pentru a putea aplica algoritmul:
+- trebuie sa aiba aceleasi dimensiuni
+- trebuie sa aiba ceva in comun (ex: toate sa fie cu pisici/peisaje/flori)
+
+-> matricea de cov nu trebuie sa fie diagonala pentru a putea aplica algoritmul
+(-> se liniarizeaza img (se pun una langa alta) si se inmulteste img cu transpusa ei)
+-> o matrice = o imagine => imagine monocroma
+
+- media pe coloane = imaginea medie liniarizata
+- matricea de covarianta de selectie are dimensiunea pxp
+
+- cei mai semnificativi vectori proprii: cei cu valorile proprii cele mai mari (cei din dreapta)
+- din valorile proprii trebuie sa pastram maxim atatea cate imagini sunt in set => nu vor fi pierderi de imagine
+    -> daca patram mai putine vor exista pierderi de imagine
+- daca vrem sa reconstruim imaginile, pe langa reprezentarea redusa (care contine partea specifica a fiecarei imagini)
+     avem nevoie si de valorile pastrate ale vectorilor proprii(partea comuna a setului de imagini) si de imaginea medie
+   -> reconstructie = (matricea vectorilor proprii pastrati * reprezentarea redusa) + matricea de imagine medie
+	
+- reshape liniarizeaza pe coloana 
+
+Analiza PCA siplificata
+- atunci cand se calc m de cov, stiind ca nr val nenule este egal cu nr ....
+
