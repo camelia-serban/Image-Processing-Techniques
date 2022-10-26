@@ -1,0 +1,9 @@
+imagine originala -> s=T(r) -> imagine prelucrata
+L = nr maxim de culori (256)
+.^ = 
+
+egalizarea histogramei in imagine = histrogama cat mai aproape de distributia uniforma
+  - ajuta la detectarea de elemente, dar nu ofera intotdeauna o claritate buna a imaginii
+  - histograma unei img = indicator statistic care arata cate puncte sunt in imagine
+  - dc nu se obtine o img clara mereu? de obicei se intampla la img care au putine culori =>
+	=> trecerile sunt bruste => efect de pixelare
