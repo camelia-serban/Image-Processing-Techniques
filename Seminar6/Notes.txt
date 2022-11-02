@@ -1,0 +1,22 @@
+Filtrare spatiala
+
+- lucram cu coordonate in spatiu bidimensional
+- lucru cu dimensiuni mici si impare
+   ->dim mari => se pierde claritatea
+- masca se aplica asupra fiecarui pixel 
+- pixelii de pe margine: masca iese in afara imaginii
+   ->bordura: depinde de masca (dim bordurii: jum din dim. mastii)
+	->bordura neagra (val 0), fiind elem. neutru
+
+corelatie: aceleasi poz
+convolutie: poz opuse
+
+Val din masca - filtre spatiale(cor)
+- de nivelare: medie (poate elimina zgomotul) (operatie matematica asemanatoare: integrare)
+- Laplace: evidentiere tranzitii de intensitate luminoasa (operatie matematica asemanatoare: diferentiere) (la rotatii de 45grade -> pastreaza mai multe detalii)
+- Roberts
+- Prewitt
+- Sobel
+Variatii - unsharp masking
+
+load: incarca matrice din fisier
