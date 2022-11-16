@@ -1,0 +1,9 @@
+[rez,~,~,~,er]=c_d(15,'ex','bmp',15);
+verificare;
+[rez,~,~,~,er]=c_d(15,'ex','bmp',10);
+verificare;
+er
+[rez,~,~,~,er]=c_d(15,'ex','bmp',15);
+er
+[rez,~,~,~,er]=c_d(15,'ex','bmp',14);
+er
