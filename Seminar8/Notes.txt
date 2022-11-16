@@ -1,0 +1,29 @@
+Tranformarea Fourier in caz discret, bidimensional (matrice)
+
+- nr complexe: 
+- coordonate spatiale: curbe, navigatie
+
+Filtrare cu frecventa:
+- masca de dim img filtrate => dez: multe calcule
+				dez: greu de descris mastile in domeniul spatial
+
+
+Algoritm filtrare in domeniul Fourier
+1. expandare imaginii
+	imagine => f
+2. centrarea imaginii expandate
+	f => fc
+3. transformare Fourier
+	fc => fcTFD
+4. construire functie filtru
+	h
+5. aplicare functie filtru
+	fcTFD * h => gTFD
+6. reconstruire imagine filtrata
+	gTFD => gc
+7. eliminarea centrarii
+	gc => g
+8. extragere imagine rezultat
+	g => imagine filtrata
+
+Pasul 4: se poate modifica pt a aplica alt filtru
